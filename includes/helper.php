@@ -18,7 +18,7 @@ class helper
 	protected $config;
 
 	/**
-	 * Constructor of the helper class. 
+	 * Constructor of the helper class.
 	 *
 	 * @param \phpbb\config\config $config
 	 *
