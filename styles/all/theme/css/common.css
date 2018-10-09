@@ -4,11 +4,9 @@
 	background-image: url('../img/puff.svg');
 	background-repeat: no-repeat;
 	background-position: 50%;
-	transition: opacity 500ms ease-in-out;
-	max-width: 100%;
-	opacity: 0;
 }
 
 .b-lazy.b-loaded {
-	opacity: 1;
+	min-width: 0;
+	min-height: 0;
 }
