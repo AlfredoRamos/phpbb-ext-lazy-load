@@ -27,7 +27,7 @@ class listener_test extends phpbb_test_case
 	{
 		parent::setUp();
 
-		$this->helper = $this->getMockBuilder(routing_helper::class)
+		$this->helper = $this->getMockBuilder(helper::class)
 			->disableOriginalConstructor()->getMock();
 	}
 
