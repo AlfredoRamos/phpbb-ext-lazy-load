@@ -19,7 +19,15 @@ class m00_lazy_loading_config extends migration
 		return [
 			[
 				'config.add',
-				['lazy_load_images', 1]
+				['lazy_load_images', 1],
+			],
+			[
+				'config.add',
+				['lazy_load_videos', 1],
+			],
+			[
+				'config.add',
+				['lazy_load_iframes', 1],
 			]
 		];
 	}

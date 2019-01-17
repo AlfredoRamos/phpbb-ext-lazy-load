@@ -25,9 +25,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'ACP_LAZY_LOADING' => 'Lazy Loading',
-	'ACP_LAZY_LOADING_SETTINGS_SAVED' => 'Lazy Loading settings have been succesfully saved.',
 
-	'ACP_LAZY_LOAD_IMAGES' => 'Lazy load images',
+	'ACP_LAZY_LOAD_IMAGES' => 'Images',
+	'ACP_LAZY_LOAD_VIDEOS' => 'Videos',
+	'ACP_LAZY_LOAD_IFRAMES' => 'Iframes',
 
 	'LOG_LAZY_LOADING_DATA' => '<strong>Lazy Load data changed</strong><br />» %s'
 ]);

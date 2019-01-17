@@ -90,6 +90,18 @@ class acp
 				$this->request->variable('lazy_load_images', 1)
 			);
 
+			// Videos
+			$this->config->set(
+				'lazy_load_videos',
+				$this->request->variable('lazy_load_videos', 1)
+			);
+
+			// Iframes
+			$this->config->set(
+				'lazy_load_iframes',
+				$this->request->variable('lazy_load_iframes', 1)
+			);
+
 			// Admin log
 			$this->log->add(
 				'admin',
@@ -102,14 +114,16 @@ class acp
 
 			// Confirm dialog
 			trigger_error(
-				$this->language->lang('ACP_LAZY_LOADING_SETTINGS_SAVED') .
+				$this->language->lang('CONFIG_UPDATED') .
 				adm_back_link($u_action)
 			);
 		}
 
 		// Assign template variables
 		$this->template->assign_vars([
-			'LAZY_LOAD_IMAGES' => ((int) $this->config['lazy_load_images'] === 1)
+			'LAZY_LOAD_IMAGES' => ((int) $this->config['lazy_load_images'] === 1),
+			'LAZY_LOAD_VIDEOS' => ((int) $this->config['lazy_load_videos'] === 1),
+			'LAZY_LOAD_IFRAMES' => ((int) $this->config['lazy_load_iframes'] === 1)
 		]);
 	}
 
