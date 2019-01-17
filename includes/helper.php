@@ -40,43 +40,40 @@ class helper
 		$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
 		$xpath = new \DOMXPath($dom);
 
-		// Images
-		if ((int) $this->config['lazy_load_images'] === 1)
+		// Elements to lazy load
+		$elements = [
+			'images' => '//img[@class="postimage"]',
+			'iframes' => '//iframe'
+		];
+
+		foreach ($elements as $key => $value)
 		{
-			foreach ($xpath->query('//img[@class="postimage"]') as $node)
+			// Check if is enabled
+			if ((int) $this->config[sprintf('lazy_load_%s', $key)] !== 1)
 			{
-				$url = $node->getAttribute('src');
-
-				if (empty($url))
-				{
-					continue;
-				}
-
-				$node->setAttribute('data-src', $url);
-				$node->removeAttribute('src');
-				$node->setAttribute('class', sprintf(
-					'b-lazy %s',
-					$node->getAttribute('class')
-				));
+				continue;
 			}
-		}
 
-		// Iframes
-		if ((int) $this->config['lazy_load_iframes'] === 1)
-		{
-			foreach ($xpath->query('//iframe') as $node)
+			// Manipulate HTML markup
+			foreach ($xpath->query($value) as $node)
 			{
-				$url = $node->getAttribute('src');
+				// Empty
+				$url = trim($node->getAttribute('src'));
 
 				if (empty($url))
 				{
 					continue;
 				}
 
+				// Replace original source
 				$node->setAttribute('data-src', $url);
+
+				// Remove original source
 				$node->removeAttribute('src');
-				$class = $node->getAttribute('class');
-				$class = empty($class) ? 'b-lazy' : sprintf('b-lazy %s', $class);
+
+				// Append CSS class
+				$class = trim($node->getAttribute('class'));
+				$class = empty($class) ? 'lazyload' : sprintf('lazyload %s', $class);
 				$node->setAttribute('class', $class);
 			}
 		}

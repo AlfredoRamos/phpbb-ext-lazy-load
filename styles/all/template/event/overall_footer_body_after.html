@@ -1,10 +1,4 @@
 {%- if not INCLUDED_LAZY_LOADING_JS -%}
-<script>
-(function() {
-	'use strict';
-	var bLazy = new Blazy();
-})();
-</script>
-{% INCLUDEJS '@alfredoramos_lazyloading/js/blazy.min.js' %}
+{%- INCLUDEJS '@alfredoramos_lazyloading/js/lazysizes.min.js' %}
 {%- set INCLUDED_LAZY_LOADING_JS = true -%}
 {%- endif -%}
