@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\tests\event;
+namespace alfredoramos\lazyload\tests\event;
 
 use phpbb_test_case;
-use alfredoramos\lazyloading\event\listener;
-use alfredoramos\lazyloading\includes\helper;
+use alfredoramos\lazyload\event\listener;
+use alfredoramos\lazyload\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class listener_test extends phpbb_test_case
 {
 
-	/** @var \alfredoramos\lazyloading\includes\helper */
+	/** @var \alfredoramos\lazyload\includes\helper */
 	protected $helper;
 
 	public function setUp()

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\includes;
+namespace alfredoramos\lazyload\includes;
 
 use phpbb\config\config;
 
@@ -42,8 +42,8 @@ class helper
 
 		// Elements to lazy load
 		$elements = [
-			'images' => '//img[@class="postimage"]',
-			'iframes' => '//iframe'
+			'image' => '//img[@class="postimage"]',
+			'iframe' => '//iframe'
 		];
 
 		foreach ($elements as $key => $value)
@@ -57,7 +57,7 @@ class helper
 			// Manipulate HTML markup
 			foreach ($xpath->query($value) as $node)
 			{
-				// Empty
+				// Check if source URL is empty
 				$url = trim($node->getAttribute('src'));
 
 				if (empty($url))

@@ -1,17 +1,16 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\acp;
+namespace alfredoramos\lazyload\acp;
 
 class main_module
 {
-
 	/** @var string */
 	public $u_action;
 
@@ -27,7 +26,7 @@ class main_module
 	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var \alfredoramos\lazyloading\controller\acp */
+	/** @var \alfredoramos\lazyload\controller\acp */
 	protected $acp_controller;
 
 	/**
@@ -41,7 +40,7 @@ class main_module
 
 		$this->template = $phpbb_container->get('template');
 		$this->language = $phpbb_container->get('language');
-		$this->acp_controller = $phpbb_container->get('alfredoramos.lazyloading.acp.controller');
+		$this->acp_controller = $phpbb_container->get('alfredoramos.lazyload.acp.controller');
 	}
 
 	/**
@@ -54,13 +53,17 @@ class main_module
 	 */
 	public function main($id, $mode)
 	{
-		add_form_key('alfredoramos_lazyloading');
+		add_form_key('alfredoramos_lazyload');
 
 		switch ($mode)
 		{
 			case 'settings':
-				$this->tpl_name = 'acp_lazy_loading_settings';
-				$this->page_title = $this->language->lang('ACP_LAZY_LOADING');
+				$this->tpl_name = 'acp_lazy_load_settings';
+				$this->page_title = sprintf(
+					'%s - %s',
+					$this->language->lang('SETTINGS'),
+					$this->language->lang('ACP_LAZY_LOAD')
+				);
 				$this->acp_controller->settings_mode($this->u_action);
 			break;
 
@@ -76,5 +79,4 @@ class main_module
 		// Assign global template variables
 		$this->template->assign_var('U_ACTION', $this->u_action);
 	}
-
 }

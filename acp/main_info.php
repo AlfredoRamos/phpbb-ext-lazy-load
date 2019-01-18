@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\acp;
+namespace alfredoramos\lazyload\acp;
 
 class main_info
 {
@@ -20,13 +20,13 @@ class main_info
 	public function module()
 	{
 		return [
-			'filename'	=> '\alfredoramos\lazyloading\acp\main_module',
-			'title'		=> 'ACP_LAZY_LOADING',
+			'filename'	=> '\alfredoramos\lazyload\acp\main_module',
+			'title'		=> 'ACP_LAZY_LOAD',
 			'modes'		=> [
 				'settings'	=> [
 					'title'	=> 'SETTINGS',
-					'auth'	=> 'ext_alfredoramos/lazyloading && acl_a_board',
-					'cat'	=> ['ACP_LAZY_LOADING']
+					'auth'	=> 'ext_alfredoramos/lazyload && acl_a_board',
+					'cat'	=> ['ACP_LAZY_LOAD']
 				]
 			]
 		];

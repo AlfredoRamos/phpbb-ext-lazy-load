@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\controller;
+namespace alfredoramos\lazyload\controller;
 
 use phpbb\config\config;
 use phpbb\template\template;
@@ -18,7 +18,6 @@ use phpbb\log\log;
 
 class acp
 {
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -72,10 +71,16 @@ class acp
 			return;
 		}
 
+		// Elements to lazy load
+		$elements = [
+			'image' => (int) $this->config['lazy_load_image'],
+			'iframe' => (int) $this->config['lazy_load_iframe']
+		];
+
 		// Request form data
 		if ($this->request->is_set_post('submit'))
 		{
-			if (!check_form_key('alfredoramos_lazyloading'))
+			if (!check_form_key('alfredoramos_lazyload'))
 			{
 				trigger_error(
 					$this->language->lang('FORM_INVALID') .
@@ -84,30 +89,29 @@ class acp
 				);
 			}
 
-			// Images
-			$this->config->set(
-				'lazy_load_images',
-				$this->request->variable('lazy_load_images', 1)
-			);
+			// Data helper
+			$data = [
+				'image' => $this->request->variable('lazy_load_image', 1),
+				'iframe' => $this->request->variable('lazy_load_iframe', 1)
+			];
 
-			// Videos
-			$this->config->set(
-				'lazy_load_videos',
-				$this->request->variable('lazy_load_videos', 1)
-			);
+			foreach ($data as $key => $value)
+			{
+				$value = ($value < 0) ? 0 : $value;
+				$value = ($value > 1) ? 1 : $value;
 
-			// Iframes
-			$this->config->set(
-				'lazy_load_iframes',
-				$this->request->variable('lazy_load_iframes', 1)
-			);
+				$this->config->set(
+					sprintf('lazy_load_%s', $key),
+					$value
+				);
+			}
 
 			// Admin log
 			$this->log->add(
 				'admin',
 				$this->user->data['user_id'],
 				$this->user->ip,
-				'LOG_LAZY_LOADING_DATA',
+				'LOG_LAZY_LOAD_DATA',
 				false,
 				[$this->language->lang('SETTINGS')]
 			);
@@ -119,12 +123,20 @@ class acp
 			);
 		}
 
-		// Assign template variables
-		$this->template->assign_vars([
-			'LAZY_LOAD_IMAGES' => ((int) $this->config['lazy_load_images'] === 1),
-			'LAZY_LOAD_VIDEOS' => ((int) $this->config['lazy_load_videos'] === 1),
-			'LAZY_LOAD_IFRAMES' => ((int) $this->config['lazy_load_iframes'] === 1)
-		]);
+		// Assign lazy load elements
+		foreach ($elements as $key => $value)
+		{
+			$this->template->assign_block_vars('LAZY_LOAD_ELEMENTS', [
+				'KEY' => sprintf('lazy_load_%s', $key),
+				'VALUE' => $value,
+				'NAME' => $this->language->lang(
+					sprintf('ACP_LAZY_LOAD_%s', strtoupper($key))
+				),
+				'EXPLAIN' => $this->language->lang(
+					sprintf('ACP_LAZY_LOAD_%s_EXPLAIN', strtoupper($key))
+				),
+				'ENABLED' => ($value === 1)
+			]);
+		}
 	}
-
 }

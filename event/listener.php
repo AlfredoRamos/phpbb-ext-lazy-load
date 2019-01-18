@@ -1,27 +1,27 @@
 <?php
 
 /**
- * Lazy Loading extension for phpBB.
+ * Lazy Load extension for phpBB.
  * @author Alfredo Ramos <alfredo.ramos@yandex.com>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
 
-namespace alfredoramos\lazyloading\event;
+namespace alfredoramos\lazyload\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use alfredoramos\lazyloading\includes\helper;
+use alfredoramos\lazyload\includes\helper;
 
 class listener implements EventSubscriberInterface
 {
 
-	/** @var \alfredoramos\lazyloading\includes\helper */
+	/** @var \alfredoramos\lazyload\includes\helper */
 	protected $helper;
 
 	/**
 	 * Listener constructor.
 	 *
-	 * @param \alfredoramos\lazyloading\includes\helper $helper
+	 * @param \alfredoramos\lazyload\includes\helper $helper
 	 *
 	 * @return void
 	 */
