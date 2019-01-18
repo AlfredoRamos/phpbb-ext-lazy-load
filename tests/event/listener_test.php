@@ -19,7 +19,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener_test extends phpbb_test_case
 {
-
 	/** @var \alfredoramos\lazyload\includes\helper */
 	protected $helper;
 
@@ -46,5 +45,4 @@ class listener_test extends phpbb_test_case
 			array_keys(listener::getSubscribedEvents())
 		);
 	}
-
 }

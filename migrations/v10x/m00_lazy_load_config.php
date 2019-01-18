@@ -13,7 +13,6 @@ use phpbb\db\migration\migration;
 
 class m00_lazy_load_config extends migration
 {
-
 	public function update_data()
 	{
 		return [
@@ -27,5 +26,4 @@ class m00_lazy_load_config extends migration
 			]
 		];
 	}
-
 }

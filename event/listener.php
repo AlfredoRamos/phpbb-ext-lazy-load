@@ -14,7 +14,6 @@ use alfredoramos\lazyload\includes\helper;
 
 class listener implements EventSubscriberInterface
 {
-
 	/** @var \alfredoramos\lazyload\includes\helper */
 	protected $helper;
 
@@ -46,5 +45,4 @@ class listener implements EventSubscriberInterface
 	{
 		$event['html'] = $this->helper->lazy_load($event['html']);
 	}
-
 }
