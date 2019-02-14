@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Lazy Loading Extension Builder" description="Builds an extension.zip from a git repository" default="all">
+<project name="Lazy Load Extension Builder" description="Builds an extension.zip from a git repository" default="all">
 	<property name="vendor-name" value="alfredoramos" />
-	<property name="extension-name" value="lazyloading" />
+	<property name="extension-name" value="lazyload" />
 	<!--
 	Only set this to "true" if you have dependencies in the composer.json,
 	otherwise use "false".
