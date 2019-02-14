@@ -27,8 +27,8 @@ matrix:
 
 env:
   global:
-    - EXTNAME="alfredoramos/lazyloading"              # Extension name
-    - GITREPO="AlfredoRamos/phpbb-ext-lazy-loading"   # GitHub repository
+    - EXTNAME="alfredoramos/lazyload"              # Extension name
+    - GITREPO="AlfredoRamos/phpbb-ext-lazy-load"   # GitHub repository
     - SNIFF="1"         # Code sniffer switch
     - IMAGE_ICC="1"     # ICC profile sniffer switch
     - EPV="1"           # Extension pre-validator switch
