@@ -4,7 +4,7 @@
 	"description": "Lazy Load extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-lazy-load",
 	"version": "0.2.0-alpha",
-	"time": "2018-10-09",
+	"time": "2019-01-20",
 	"keywords": ["phpbb", "extension", "lazy-load"],
 	"license": "GPL-2.0-only",
 	"authors": [
