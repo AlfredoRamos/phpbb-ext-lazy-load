@@ -37,7 +37,7 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_render_after' => 'lazy_load'
+			'core.text_formatter_s9e_render_after' => ['lazy_load', -1]
 		];
 	}
 
