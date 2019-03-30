@@ -10,25 +10,9 @@
 namespace alfredoramos\lazyload\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use alfredoramos\lazyload\includes\helper;
 
 class listener implements EventSubscriberInterface
 {
-	/** @var \alfredoramos\lazyload\includes\helper */
-	protected $helper;
-
-	/**
-	 * Listener constructor.
-	 *
-	 * @param \alfredoramos\lazyload\includes\helper $helper
-	 *
-	 * @return void
-	 */
-	public function __construct(helper $helper)
-	{
-		$this->helper = $helper;
-	}
-
 	/**
 	 * Assign functions defined in this class to event listeners in the core.
 	 *
@@ -37,12 +21,40 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return [
-			'core.text_formatter_s9e_render_after' => ['lazy_load', -1]
+			'core.text_formatter_s9e_configure_after' => ['lazy_load', -1]
 		];
 	}
 
 	public function lazy_load($event)
 	{
-		$event['html'] = $this->helper->lazy_load($event['html']);
+		$img = $event['configurator']->tags['img'];
+		$dom = $img->template->asDOM();
+		$xpath = new \DOMXPath($dom);
+
+		foreach ($xpath->query('//img[@src]') as $node)
+		{
+			// Get image URL
+			$url = trim($node->getAttribute('src'));
+
+			// Check if source URL is empty
+			if (empty($url))
+			{
+				continue;
+			}
+
+			// Replace original source
+			$node->setAttribute('data-src', $url);
+
+			// Remove original source
+			$node->removeAttribute('src');
+
+			// Append CSS class
+			$node->setAttribute('class', trim(sprintf(
+				'%s lazyload',
+				$node->getAttribute('class')
+			)));
+		}
+
+		$dom->saveChanges();
 	}
 }

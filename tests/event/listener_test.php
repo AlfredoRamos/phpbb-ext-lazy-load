@@ -11,7 +11,6 @@ namespace alfredoramos\lazyload\tests\event;
 
 use phpbb_test_case;
 use alfredoramos\lazyload\event\listener;
-use alfredoramos\lazyload\includes\helper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -19,29 +18,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener_test extends phpbb_test_case
 {
-	/** @var \alfredoramos\lazyload\includes\helper */
-	protected $helper;
-
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->helper = $this->getMockBuilder(helper::class)
-			->disableOriginalConstructor()->getMock();
-	}
-
 	public function test_instance()
 	{
 		$this->assertInstanceOf(
 			EventSubscriberInterface::class,
-			new listener($this->helper)
+			new listener
 		);
 	}
 
 	public function test_suscribed_events()
 	{
 		$this->assertSame(
-			['core.text_formatter_s9e_render_after'],
+			['core.text_formatter_s9e_configure_after'],
 			array_keys(listener::getSubscribedEvents())
 		);
 	}

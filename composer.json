@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "Lazy Load extension for phpBB",
 	"homepage": "https://github.com/AlfredoRamos/phpbb-ext-lazy-load",
-	"version": "0.2.0-alpha",
+	"version": "0.3.0-beta",
 	"time": "2019-01-20",
 	"keywords": ["phpbb", "extension", "lazy-load"],
 	"license": "GPL-2.0-only",

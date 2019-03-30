@@ -1,22 +1,5 @@
 services:
     alfredoramos.lazyload.listener:
         class: alfredoramos\lazyload\event\listener
-        arguments:
-            - '@alfredoramos.lazyload.helper'
         tags:
             - { name: event.listener }
-
-    alfredoramos.lazyload.helper:
-        class: alfredoramos\lazyload\includes\helper
-        arguments:
-            - '@config'
-
-    alfredoramos.lazyload.acp.controller:
-        class: alfredoramos\lazyload\controller\acp
-        arguments:
-            - '@config'
-            - '@template'
-            - '@request'
-            - '@language'
-            - '@user'
-            - '@log'
