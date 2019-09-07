@@ -22,7 +22,7 @@ Lazy Load extension for phpBB
 
 ### Usage
 
-It will prevent unnecessary image and iframe loading to optimize bandwidth usage, as it will load content only when needed.
+It will prevent unnecessary image loading to optimize bandwidth usage, as it will load content only when needed.
 
 ### Configuration
 
