@@ -4,6 +4,7 @@ Lazy Load extension for phpBB
 
 [![Build Status](https://img.shields.io/travis/com/AlfredoRamos/phpbb-ext-lazy-load.svg?style=flat-square)](https://travis-ci.com/AlfredoRamos/phpbb-ext-lazy-load)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-lazy-load.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-lazy-load/releases)
+[![Code Quality](https://img.shields.io/codacy/grade/13a13c2aaf71468b9480cf7fb722b138?style=flat-square)](https://app.codacy.com/manual/AlfredoRamos/phpbb-ext-lazy-load)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-lazy-load.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-lazy-load/master/license.txt)
 
 ### Dependencies
