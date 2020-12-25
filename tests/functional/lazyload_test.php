@@ -9,12 +9,10 @@
 
 namespace alfredoramos\lazyload\tests\functional;
 
-use phpbb_functional_test_case;
-
 /**
  * @group functional
  */
-class lazyload_test extends phpbb_functional_test_case
+class lazyload_test extends \phpbb_functional_test_case
 {
 	static protected function setup_extensions()
 	{
