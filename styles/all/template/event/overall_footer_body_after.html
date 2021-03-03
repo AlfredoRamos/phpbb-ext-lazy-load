@@ -1,6 +1,6 @@
 {% if not INCLUDED_LAZY_LOAD_JS %}
 {%- if S_ALLOW_CDN -%}
-{% INCLUDEJS 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.1/lazysizes.min.js' %}
+{% INCLUDEJS 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.0/lazysizes.min.js' %}
 {%- else -%}
 {% INCLUDEJS '@alfredoramos_lazyload/js/lazysizes.min.js' %}
 {%- endif -%}
