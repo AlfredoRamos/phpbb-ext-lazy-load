@@ -1,11 +1,15 @@
 ### About
 
-Lazy Load extension for phpBB
+Lazy Load extension for phpBB.
 
 [![Build Status](https://img.shields.io/github/workflow/status/AlfredoRamos/phpbb-ext-lazy-load/GitHub%20Actions%20CI?style=flat-square)](https://github.com/AlfredoRamos/phpbb-ext-lazy-load/actions)
 [![Latest Stable Version](https://img.shields.io/github/tag/AlfredoRamos/phpbb-ext-lazy-load.svg?style=flat-square&label=stable)](https://github.com/AlfredoRamos/phpbb-ext-lazy-load/releases)
-[![Code Quality](https://img.shields.io/codacy/grade/eb4c8decef96487fbbed8dd598ec5b71.svg?style=flat-square)](https://app.codacy.com/manual/AlfredoRamos/phpbb-ext-lazy-load/dashboard)
+[![Code Quality](https://img.shields.io/codacy/grade/eb4c8decef96487fbbed8dd598ec5b71.svg?style=flat-square)](https://app.codacy.com/gh/AlfredoRamos/phpbb-ext-lazy-load/dashboard)
 [![License](https://img.shields.io/github/license/AlfredoRamos/phpbb-ext-lazy-load.svg?style=flat-square)](https://raw.githubusercontent.com/AlfredoRamos/phpbb-ext-lazy-load/master/license.txt)
+
+It will prevent unnecessary image loading to optimize bandwidth usage, as it will load them only when needed.
+
+It doesn't require any configuration.
 
 ### Dependencies
 
@@ -19,16 +23,6 @@ Lazy Load extension for phpBB
 - Copy the files and directories inside `{PHPBB_ROOT}/ext/alfredoramos/lazyload/`
 - Go to your `Administration Control Panel` > `Customize` > `Manage extensions`
 - Click on `Enable` and confirm
-
-### Usage
-
-It will prevent unnecessary image loading to optimize bandwidth usage, as it will load content only when needed.
-
-### Configuration
-
-- Go to your `Administration Control Panel` > `Extensions` > `Lazy Load`
-- Change settings as needed
-- Click on `Submit`
 
 ### Uninstallation
 
