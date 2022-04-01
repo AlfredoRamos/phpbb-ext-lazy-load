@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"php": "^7.1.3",
+		"php": "^7.1.3 || ^8.0.0",
 		"composer/installers": "^1.6.0"
 	},
 	"require-dev": {
@@ -33,6 +33,11 @@
 			"directory": "/phpbb-extensions/versions",
 			"filename": "lazy-load.json",
 			"ssl": true
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
 		}
 	}
 }

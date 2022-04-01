@@ -1,27 +1,22 @@
-name: GitHub Actions CI
+name: CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
 
 env:
   EXTNAME: 'alfredoramos/lazyload'
   SNIFF: 1
   IMAGE_ICC: 1
   EPV: 1
-  EXECUTABLE_FILES: 0
-  EXTDEPS: 0
+  EXECUTABLE_FILES: 1
   PHPBB_BRANCH: 3.3.x
 
 jobs:
   test:
-    name: php ${{ matrix.php-version }}, ${{ matrix.db-type }}
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    name: php ${{ matrix.php-version }}, ${{ matrix.db-type }} ${{ matrix.db-version }}
     runs-on: ubuntu-18.04
     services:
       mysql:
@@ -38,7 +33,7 @@ jobs:
           --health-retries=3
 
       postgres:
-        image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'latest' }}
+        image: ${{ (matrix.db-type == 'postgres') && matrix.db-type || 'postgres' }}:${{ (matrix.db-type == 'postgres' && matrix.db-version != 'none') && matrix.db-version || 'alpine' }}
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -69,7 +64,7 @@ jobs:
             db-version: '10.5'
           - php-version: '7.1'
             db-type: 'postgres'
-            db-version: '13.1'
+            db-version: '13-alpine'
           - php-version: '7.2'
             db-type: 'mariadb'
             db-version: '10.5'
@@ -88,18 +83,21 @@ jobs:
           - php-version: '8.1'
             db-type: 'mariadb'
             db-version: '10.5'
+          - php-version: '8.2'
+            db-type: 'postgres'
+            db-version: '14-alpine'
     steps:
       - name: Checkout phpBB
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
           repository: phpbb/phpbb
           ref: ${{ env.PHPBB_BRANCH }}
           path: phpBB3
 
       - name: Checkout extension
-        uses: actions/checkout@master
+        uses: actions/checkout@v3
         with:
-          path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+          path: extension
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -112,12 +110,10 @@ jobs:
       - name: Setup Composer
         id: setup-composer
         working-directory: phpBB3/phpBB
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-          composer update --no-install --prefer-dist
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ steps.setup-composer.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock', '**/composer.json') }}
@@ -128,12 +124,11 @@ jobs:
         working-directory: phpBB3
         run: .github/setup-phpbb.sh $DB $PHP_VERSION $NOTESTS
 
-      - name: Install extension dependencies
-        if: ${{ env.EXTDEPS == 1 }}
-        working-directory: phpBB3/phpBB/ext/${{ env.EXTNAME }}
+      - name: Setup extension
+        working-directory: extension
         run: |
-          composer require -n --prefer-dist --no-progress 'composer/package-versions-deprecated:^1.11.99' 'ocramius/proxy-manager:~2.1.1'
-          composer update -n --no-dev --prefer-dist --no-progress
+          chmod +x .github/setup-extension.sh
+          .github/setup-extension.sh $EXTNAME $NOTESTS
 
       - name: Setup EPV
         if: ${{ env.NOTESTS == 1 && env.EPV == 1 }}
@@ -170,7 +165,7 @@ jobs:
         working-directory: phpBB3
         run: |
           mkdir -p phpBB/ext/$EXTNAME/ci
-          cp .github/phpunit* phpBB/ext/$EXTNAME/ci/
+          cp -a .github/phpunit* phpBB/ext/$EXTNAME/ci/
 
       - name: Run unit tests
         if: ${{ env.NOTESTS != 1 }}
