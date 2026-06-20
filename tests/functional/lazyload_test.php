@@ -2,7 +2,7 @@
 
 /**
  * Lazy Load extension for phpBB.
- * @author Alfredo Ramos <alfredo.ramos@yandex.com>
+ * @author Alfredo Ramos <alfredo.ramos@proton.me>
  * @copyright 2018 Alfredo Ramos
  * @license GPL-2.0-only
  */
@@ -25,8 +25,8 @@ class lazyload_test extends \phpbb_functional_test_case
 
 		$data = [
 			'title' => 'Lazy Load Functional Test 1',
-			'body' => '[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png[/img]'.PHP_EOL.
-			'[img]https://help.duckduckgo.com/duckduckgo-help-pages/images/2291e0a7248ef66e60686f161361f03d.png[/img]'
+			'body' => '[img]https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg[/img]'.PHP_EOL.
+			'[img]https://images.pexels.com/photos/1677344/pexels-photo-1677344.jpeg[/img]'
 		];
 
 		$post = $this->create_topic(
@@ -50,19 +50,20 @@ class lazyload_test extends \phpbb_functional_test_case
 
 		$elements = $result->filter('.lazyload');
 
-		$expected = '<img class="postimage lazyload" alt="Image" data-src="https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png"><br><img class="postimage lazyload" alt="Image" data-src="https://help.duckduckgo.com/duckduckgo-help-pages/images/2291e0a7248ef66e60686f161361f03d.png">';
+		$expected = '<img class="postimage lazyload" alt="Image" data-src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg"><br>'.PHP_EOL.
+			'<img class="postimage lazyload" alt="Image" data-src="https://images.pexels.com/photos/1677344/pexels-photo-1677344.jpeg">';
 
 		$this->assertSame(2, $elements->count());
 		$this->assertSame($expected, $result->html());
 
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/fb5a7e58b23313e8c852b2f9ec6a2f6a.png',
+			'https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg',
 			$elements->eq(0)->attr('data-src')
 		);
 		$this->assertTrue(is_null($elements->eq(0)->attr('src')));
 
 		$this->assertSame(
-			'https://help.duckduckgo.com/duckduckgo-help-pages/images/2291e0a7248ef66e60686f161361f03d.png',
+			'https://images.pexels.com/photos/1677344/pexels-photo-1677344.jpeg',
 			$elements->eq(1)->attr('data-src')
 		);
 		$this->assertTrue(is_null($elements->eq(1)->attr('src')));

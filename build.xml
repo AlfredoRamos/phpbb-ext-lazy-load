@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Lazy Load Extension Builder" description="Builds an extension.zip from a git repository" default="all">
+<project name="Lazy Load Extension Builder"
+	description="Builds an extension.zip from a git repository" default="all">
+	<property name="env" value="production" />
 	<property name="vendor-name" value="alfredoramos" />
 	<property name="extension-name" value="lazyload" />
 	<!--
@@ -14,19 +16,31 @@
 	example: ext/${vendor-name}/${extension-name}/
 	-->
 	<target name="clean-package">
+		<echo msg="Cleaning files and directories" />
+
 		<delete dir="${dir}/tests" />
-		<delete dir="${dir]/.github" />
+		<delete dir="${dir}/node_modules" />
+		<delete dir="${dir}/.github" />
+		<delete dir="${dir}/.vscode" />
 		<delete file="${dir}/.gitignore" />
 		<delete file="${dir}/.gitattributes" />
+		<delete file="${dir}/.editorconfig" />
+		<delete file="${dir}/.stylelintrc.json" />
+		<delete file="${dir}/.tool-versions" />
 		<delete file="${dir}/build.xml" />
+		<delete file="${dir}/crowdin.yml" />
 		<delete file="${dir}/phpunit.xml.dist" />
 		<delete file="${dir}/README.md" />
+		<delete file="${dir}/package.json" />
+		<delete file="${dir}/package-lock.json" />
+		<delete file="${dir}/postcss.config.js" />
 	</target>
 
 	<!-- DO NOT EDIT BELOW THIS LINE -->
 	<property name="version" value="HEAD" override="true" />
 	<property name="build-directory" value="build" override="true" />
-	<property name="package-directory" value="${build-directory}/package/${vendor-name}/${extension-name}" />
+	<property name="package-directory"
+		value="${build-directory}/package/${vendor-name}/${extension-name}" />
 
 	<!-- These are the main targets which you will probably want to use -->
 	<target name="all" depends="prepare-structure,package" />
@@ -34,6 +48,12 @@
 	<!-- Clean up the build directory -->
 	<target name="clean">
 		<delete dir="${build-directory}" />
+	</target>
+
+	<!-- Minify CSS and JS assets -->
+	<target name="minify-assets">
+		<echo msg="Minifying assets" />
+		<exec command="npm run build" checkreturn="true" />
 	</target>
 
 	<!-- Recreate the necessary folders -->
@@ -49,7 +69,6 @@
 	<!-- The real packaging -->
 	<target name="package">
 		<echo msg="Extracting ${version}" />
-
 		<phingcall target="git-checkout">
 			<property name="archive-version" value="${version}" />
 		</phingcall>
@@ -58,7 +77,8 @@
 			<equals arg1="${has-dependencies}" arg2="1" />
 			<then>
 				<echo msg="Installing dependencies" />
-				<exec dir="${package-directory}" command="composer install --prefer-dist --no-dev" checkreturn="true" />
+				<exec dir="${package-directory}" command="composer install --prefer-dist --no-dev"
+					checkreturn="true" />
 			</then>
 		</if>
 
@@ -72,8 +92,17 @@
 			checkreturn="true"
 			outputProperty='package-version' />
 
+		<!-- Build and ninify assets -->
+		<if>
+			<equals arg1="${env}" arg2="production" />
+			<then>
+				<phingcall target="minify-assets" />
+			</then>
+		</if>
+
 		<phingcall target="wrap-package">
-			<property name="destination-filename" value="${build-directory}/upload/${vendor-name}_${extension-name}_${package-version}" />
+			<property name="destination-filename"
+				value="${build-directory}/upload/${vendor-name}_${extension-name}_${package-version}" />
 		</phingcall>
 	</target>
 
@@ -81,17 +110,24 @@
 	<target name="git-checkout">
 		<echo msg="Getting archive for ${archive-version}" />
 
-		<exec command="git archive ${archive-version} --format zip --output ${build-directory}/checkout/${archive-version}.zip"
+		<exec
+			command="git archive ${archive-version} --format zip --output ${build-directory}/checkout/${archive-version}.zip"
 			checkreturn="true" />
-		<unzip file="${build-directory}/checkout/${archive-version}.zip" todir="${package-directory}" />
+		<unzip file="${build-directory}/checkout/${archive-version}.zip"
+			todir="${package-directory}" />
 	</target>
 
 	<!-- Create the zip and tar ball -->
 	<target name="wrap-package">
-		<echo msg="Creating archives (${vendor-name}/${extension-name} ${version})" />
+		<echo msg="Cleaning build" />
+		<exec command="npm run build-clean" checkreturn="true" />
+
+		<echo msg="Creating archives (${vendor-name}/${extension-name} ${package-version})" />
 		<zip basedir="${build-directory}/package/" destfile="${destination-filename}.zip" />
-		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.gz" compression="gzip" />
-		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.bz2" compression="bzip2" />
+		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.gz"
+			compression="gzip" />
+		<tar basedir="${build-directory}/package/" destfile="${destination-filename}.tar.bz2"
+			compression="bzip2" />
 
 		<echo msg="Generating checksums" />
 		<manifest checksum="sha512" file="${build-directory}/upload/checksums.sha512">
